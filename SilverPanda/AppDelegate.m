@@ -7,12 +7,47 @@
 //
 
 #import "AppDelegate.h"
+#import "Friend.h"
+#import "FriendsViewController.h"
 
 @implementation AppDelegate
+{
+NSMutableArray *friends;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    friends = [NSMutableArray arrayWithCapacity:1];
+	Friend *friend = [[Friend alloc] init];
+	friend.first = @"Bill Evans";
+	friend.last = @"Tic-Tac-Toe";
+    [friends addObject:friend];
+    
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+	UINavigationController *navigationController = [[tabBarController viewControllers] objectAtIndex:0];
+	FriendsViewController *friendsViewController = [[navigationController viewControllers] objectAtIndex:0];
+//    friendsViewController.friends = friends;
+    
+    RKObjectMapping* friendMapping = [RKObjectMapping mappingForClass:[Friend class]];
+    [friendMapping addAttributeMappingsFromArray:@[@"first", @"last"]];
+     
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:friendMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"friends" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    NSURL *URL = [NSURL URLWithString:@"http://silverpanda.herokuapp.com/"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
+    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        friendsViewController.friends = [mappingResult.array mutableCopy];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateFriends"
+                                                            object:nil];
+        RKLogInfo(@"Load collection of Friends: %@", mappingResult.array);
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        RKLogError(@"Operation failed with error: %@", error);
+    }];
+    
+    [objectRequestOperation start];
+    
     return YES;
 }
 							
