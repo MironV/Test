@@ -40,6 +40,7 @@
 /* Begin PBXFileReference section */
 		2EA97A4F7B954781B06D3E45 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		7DA2B61E09C34894A03CA4A9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E6BC599184199DD007CB561 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		9E7C913E18387C1A00EA464B /* SilverPanda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SilverPanda.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E7C914118387C1A00EA464B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9E7C914318387C1A00EA464B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -51,7 +52,6 @@
 		9E7C915018387C1A00EA464B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9E7C915118387C1A00EA464B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9E7C915418387C1A00EA464B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9E7C915618387C1A00EA464B /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		9E7C915718387C1A00EA464B /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		9E7C915918387C1A00EA464B /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		9E7C915A18387C1A00EA464B /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
@@ -97,7 +97,6 @@
 			children = (
 				9E7C914718387C1A00EA464B /* SilverPanda */,
 				9E7C916918387C1A00EA464B /* SilverPandaTests */,
-				9E7C914018387C1A00EA464B /* Frameworks */,
 				9E7C913F18387C1A00EA464B /* Products */,
 				2EA97A4F7B954781B06D3E45 /* Pods.xcconfig */,
 			);
@@ -122,6 +121,7 @@
 				7DA2B61E09C34894A03CA4A9 /* libPods.a */,
 			);
 			name = Frameworks;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		9E7C914718387C1A00EA464B /* SilverPanda */ = {
@@ -134,7 +134,7 @@
 				9E7C917A18387D2400EA464B /* FriendsViewController.m */,
 				9E7C917C18387D7600EA464B /* Friend.h */,
 				9E7C917D18387D7600EA464B /* Friend.m */,
-				9E7C915618387C1A00EA464B /* FirstViewController.h */,
+				9E6BC599184199DD007CB561 /* FirstViewController.h */,
 				9E7C915718387C1A00EA464B /* FirstViewController.m */,
 				9E7C915918387C1A00EA464B /* SecondViewController.h */,
 				9E7C915A18387C1A00EA464B /* SecondViewController.m */,
@@ -158,6 +158,7 @@
 		9E7C916918387C1A00EA464B /* SilverPandaTests */ = {
 			isa = PBXGroup;
 			children = (
+				9E7C914018387C1A00EA464B /* Frameworks */,
 				9E7C916F18387C1A00EA464B /* SilverPandaTests.m */,
 				9E7C916A18387C1A00EA464B /* Supporting Files */,
 			);
@@ -222,6 +223,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Miron Vranjes";
 				TargetAttributes = {
+					9E7C913D18387C1900EA464B = {
+						DevelopmentTeam = 8F6746YWC8;
+					};
 					9E7C916118387C1A00EA464B = {
 						TestTargetID = 9E7C913D18387C1900EA464B;
 					};
@@ -438,10 +442,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SilverPanda/SilverPanda-Prefix.pch";
 				INFOPLIST_FILE = "SilverPanda/SilverPanda-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -452,10 +459,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SilverPanda/SilverPanda-Prefix.pch";
 				INFOPLIST_FILE = "SilverPanda/SilverPanda-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -17,24 +17,20 @@ NSMutableArray *friends;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    friends = [NSMutableArray arrayWithCapacity:1];
-	Friend *friend = [[Friend alloc] init];
-	friend.first = @"Bill Evans";
-	friend.last = @"Tic-Tac-Toe";
-    [friends addObject:friend];
-    
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
 	UINavigationController *navigationController = [[tabBarController viewControllers] objectAtIndex:0];
 	FriendsViewController *friendsViewController = [[navigationController viewControllers] objectAtIndex:0];
-//    friendsViewController.friends = friends;
-    
+
     RKObjectMapping* friendMapping = [RKObjectMapping mappingForClass:[Friend class]];
     [friendMapping addAttributeMappingsFromArray:@[@"first", @"last"]];
      
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:friendMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"friends" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:friendMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"users" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    NSURL *URL = [NSURL URLWithString:@"http://silverpanda.herokuapp.com/"];
+    //NSURL *URL = [NSURL URLWithString:@"http://silverpanda.herokuapp.com/userlist"];
+    
+    NSURL *URL = [NSURL URLWithString:@"http://169.254.207.230:5000/userlist"];
+    
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {

@@ -40,11 +40,55 @@
                                                  name:@"UpdateFriends"
                                                object:nil];
     
+    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+    
+    [refresh setTintColor:[UIColor colorWithRed:0.000 green:0.100 blue:0.830 alpha:1.000]];
+    
+//    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    
+    
+    [refresh addTarget:self action:@selector(refreshData)
+      forControlEvents:UIControlEventValueChanged];
+    
+    self.refreshControl = refresh;
+
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)refreshData
+{
+    RKObjectMapping* friendMapping = [RKObjectMapping mappingForClass:[Friend class]];
+    [friendMapping addAttributeMappingsFromArray:@[@"first", @"last"]];
+    
+    NSLog(@"Refreshing!!!!");
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:friendMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"users" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    NSURL *URL = [NSURL URLWithString:@"http://silverpanda.herokuapp.com/userlist"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
+    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        self.friends = [mappingResult.array mutableCopy];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateFriends"
+                                                            object:nil];
+        RKLogInfo(@"Load collection of Friends: %@", mappingResult.array);
+        [self stopRefresh];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        RKLogError(@"Operation failed with error: %@", error);
+    }];
+    
+    [objectRequestOperation start];
+}
+
+- (void)stopRefresh
+
+{
+    [self.refreshControl endRefreshing];
 }
 
 - (void)viewDidUnload
